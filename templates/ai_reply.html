@@ -54,6 +54,8 @@
 
     {% if reply.title and reply.description and reply.impact and reply.attribution %}
     <form action="{{ url_for('submit_idea') }}" class="ai-reply-form" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <div>
             <label for="idea-title">Title</label>
             <input id="idea-title" name="title" placeholder="Enter your idea title" required type="text"

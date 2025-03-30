@@ -2,11 +2,10 @@ import json
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from sqlalchemy import or_  # Import the "or_" function
-from flask import jsonify, request
+from sqlalchemy import or_
 from model import db, Idea
 import openai
-from sqlalchemy import func
+from flask_wtf.csrf import CSRFProtect
 
 
 app = Flask(__name__)
@@ -18,6 +17,7 @@ app.secret_key = 'your_secret_key'  # Needed for flash messages
 
 # Initialize the SQLAlchemy instance with the app
 db.init_app(app)
+csrf = CSRFProtect(app)
 
 @app.route('/support')
 def support():

@@ -163,7 +163,9 @@ ul.flashes li.flash-warning {
 <p>Share your idea. Vote on others. Spark creativity.</p>
 
 <form action="/search" class="search-form" method="get" role="search">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <fieldset role="group">
+
         <input aria-label="Search" name="q" placeholder="Search for an idea..." type="search">
         <input type="submit" value="Search"/>
     </fieldset>
@@ -190,7 +192,7 @@ ul.flashes li.flash-warning {
         <section>
             <!-- Use a proper form submission method and action -->
             <form action="{{ url_for('submit_idea') }}" method="post">
-                <!-- Include CSRF token if needed, e.g.: -->
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div data-tooltip="E.g., 'Collaborative AI Meeting Assistant'">
                     <input id="idea-title" name="title" placeholder="Enter your idea title" required type="text">
                 </div>
