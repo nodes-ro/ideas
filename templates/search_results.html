@@ -45,7 +45,7 @@
 <main>
     <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
         <nav>
-            <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}">
+            <a data-placement="right" data-tooltip="Home" href="{{ url_for('index') }}">
                 <i class="fa-regular fa-lightbulb fa-2x"></i>
             </a>
         </nav>
@@ -82,16 +82,21 @@
     <p>No results found for your search.</p>
     <hr/>
     <p>
-      <em>Not sure what to do? Use our AI to generate a fresh idea based on your input: "{{ query }}"</em>
+        <em>Not sure what to do next ? <a class="contrast" href="{{ url_for('ai_reply', message=query) }}"
+                                          role="button">
+            <i class="fa-solid fa-robot"></i> Use AI to Generate a Fresh Idea</a> based on your input: "{{ query
+            }}"</em> or
+        <a class="contrast" href="{{ url_for('index') }}#idea-modal" id="open-modal" role="button">
+            <i class="fas fa-plus-circle"></i> Add Your Own Idea
+        </a>
+
     </p>
-    <p>
-        <a href="{{ url_for('ai_reply', message=query) }}" role="button" class="contrast">Generate Idea</a>
-    </p>
+
     {% endif %}
 
-     <footer class="back-button">
+    <footer class="back-button">
         <button class="contrast" onclick="history.back()">← Back</button>
-      </footer>
+    </footer>
 </main>
 </body>
 </html>

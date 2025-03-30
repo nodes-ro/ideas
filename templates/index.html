@@ -168,7 +168,7 @@ ul.flashes li.flash-warning {
 
 <div class="buttons">
     <a class="contrast" href="#idea-modal" id="open-modal" role="button">
-        <i class="fas fa-plus-circle"></i> Add Your Idea
+        <i class="fas fa-plus-circle"></i> Add Your Own Idea
     </a>
     <a class="primary" data-tooltip="Browse all submitted ideas" href="{{ url_for('ideas') }}" role="button">
         <i class="fas fa-folder-open"></i> Browse Ideas
@@ -220,6 +220,12 @@ ul.flashes li.flash-warning {
 <script>
     document.addEventListener('DOMContentLoaded', () => {
       const modal = document.getElementById('idea-modal');
+        // If URL hash is "#idea-modal", open the dialog automatically
+        if (window.location.hash === "#idea-modal") {
+          modal.showModal();
+        }
+
+
       const openModalButton = document.getElementById('open-modal');
       const cancelLink = document.getElementById('cancel-link');
 
