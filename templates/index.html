@@ -101,14 +101,21 @@ ul.flashes li.flash-warning {
     </style>
 </head>
 <body>
+<noscript>
+    <div style="background: #ffc; border: 1px solid #ffa; padding: 1rem; text-align: center;">
+        <strong>Note:</strong> JavaScript is disabled in your browser. Some interactive features, such as voting, may
+        not work.
+    </div>
+</noscript>
+
 {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class="flashes">
-      {% for category, message in messages %}
-        <li class="flash-{{ category }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+{% if messages %}
+<ul class="flashes">
+    {% for category, message in messages %}
+    <li class="flash-{{ category }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endwith %}
 
 
@@ -118,19 +125,20 @@ ul.flashes li.flash-warning {
 
 <p>Share your idea. Vote on others. Let creativity flow.</p>
 
-<form action="/search" class="search-form" method="get">
-    <div class="search-row">
-        <input aria-label="Search" name="q" placeholder="Search for an idea..." style="flex: 1;" type="search">
-    </div>
+<form action="/search" class="search-form" method="get" role="search">
+    <fieldset role="group">
+        <input aria-label="Search" name="q" placeholder="Search for an idea..."  type="search">
+        <input type="submit" value="Search"/>
+    </fieldset>
 </form>
 
 <div class="buttons">
     <a class="contrast" href="#idea-modal" id="open-modal" role="button">
         <i class="fas fa-plus-circle"></i> Add Your Idea
     </a>
-  <a href="{{ url_for('ideas') }}" role="button" class="primary" data-tooltip="Browse all submitted ideas">
-  <i class="fas fa-folder-open"></i> Browse Ideas
-</a>
+    <a class="primary" data-tooltip="Browse all submitted ideas" href="{{ url_for('ideas') }}" role="button">
+        <i class="fas fa-folder-open"></i> Browse Ideas
+    </a>
 
 </div>
 
@@ -147,7 +155,7 @@ ul.flashes li.flash-warning {
             <form action="{{ url_for('submit_idea') }}" method="post">
                 <!-- Include CSRF token if needed, e.g.: -->
                 <div data-tooltip="E.g., 'Collaborative AI Meeting Assistant'">
-                    <input id="idea-title" name="title" placeholder="Enter your idea title" type="text" required>
+                    <input id="idea-title" name="title" placeholder="Enter your idea title" required type="text">
                 </div>
                 <div data-tooltip="E.g., 'The app uses AI to highlight key points immediately after a meeting ends.'">
                     <textarea id="idea-description" name="description" placeholder="Describe your idea..."
@@ -159,8 +167,9 @@ ul.flashes li.flash-warning {
                 </div>
                 <hr/>
                 <div data-tooltip="E.g., 'Submitted by Jane Doe, jane.doe@example.com'">
-                    <input id="idea-attribution" name="attribution" placeholder="Enter attribution (e.g., original source, your name) or contact details"
-                           type="text" required>
+                    <input id="idea-attribution" name="attribution"
+                           placeholder="Enter attribution (e.g., original source, your name) or contact details"
+                           required type="text">
                 </div>
                 <fieldset role="group">
                     <!-- Cancel handled via JS, Submit now properly submits the form -->
