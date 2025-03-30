@@ -36,7 +36,7 @@
        .idea-votes a {
          text-decoration: none;
          color: var(--color-primary);
-         font-size: 1.5rem;
+         font-size: 1.3rem;
        }
        .idea-votes a:hover i {
          color: #007bff;
@@ -90,25 +90,26 @@
 {% endif %}
 {% endwith %}
 
-<header>
-    <nav>
-        <a href="{{ url_for('index') }}">Add New Idea</a>
-    </nav>
-</header>
+
 <main>
+    <header>
+        <nav style="margin-left:10px;">
+            <a data-tooltip="New idea" data-placement="right" href="{{ url_for('index') }}"><i class="fa-regular fa-lightbulb fa-2x"></i></a>
+        </nav>
+    </header>
     {% if ideas %}
     <div class="ideas-grid">
         {% for idea in ideas %}
         <article class="card">
             <header>
 
-                <h2>{{ idea.title }}</h2>
+                <h5>{{ idea.title }}</h5>
             </header>
             <section>
-                <p><strong>Description:</strong> {{ idea.description }}</p>
-                <p><strong>Impact:</strong> {{ idea.impact }}</p>
-                <p><strong>Attribution:</strong> {{ idea.attribution }}</p>
-                <p>
+                <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
+                <p><i class="fas fa-bolt" title="Impact"></i> {{ idea.impact }}</p>
+                <p><i class="fas fa-user" title="Attribution"></i> {{ idea.attribution }}</p>
+                <p style="color:#777">
                     <small>
                         Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
                         (<em>{{ idea.unique_hash }}</em>)
@@ -116,14 +117,12 @@
                 </p>
             </section>
             <footer class="idea-votes">
-                <a data-tooltip="I like this idea" href="{{ url_for('vote', idea_id=idea.id, vote='up') }}">
-                    <span>{{ idea.up_votes }}</span>
+                <a data-tooltip="{{ idea.up_votes }} votes" href="{{ url_for('vote', idea_id=idea.id, vote='up') }}">
                     <i class="fas fa-thumbs-up"></i>
-
                 </a>
-                <a data-tooltip="I don't like this" href="{{ url_for('vote', idea_id=idea.id, vote='down') }}">
+                <a data-tooltip="{{ idea.down_votes }} votes"
+                   href="{{ url_for('vote', idea_id=idea.id, vote='down') }}">
                     <i class="fas fa-thumbs-down"></i>
-                    <span>{{ idea.down_votes }}</span>
                 </a>
             </footer>
         </article>
