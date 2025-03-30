@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from model import db, Idea
+from sqlalchemy import or_  # Import the "or_" function
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ideas.db'
@@ -45,25 +46,63 @@ def idea_detail(unique_hash):
     return render_template('idea_detail.html', idea=idea)
 
 
+from flask import jsonify
+
+
+from flask import jsonify, request
+from model import db, Idea
 
 @app.route('/vote')
 def vote():
-    idea_id = request.args.get('idea_id')
+    try:
+        idea_id = int(request.args.get('idea_id'))
+    except (TypeError, ValueError):
+        return jsonify(status="error", message="Invalid idea ID."), 400
+
     vote_type = request.args.get('vote')
     idea = Idea.query.get(idea_id)
+
     if idea is None:
-        flash("Idea not found.", "error")
-        return redirect(url_for('ideas'))
+        return jsonify(status="error", message="Idea not found."), 404
+
     if vote_type == 'up':
         idea.up_votes += 1
-        flash("Thanks for your vote!", "success")
     elif vote_type == 'down':
         idea.down_votes += 1
-        flash("Thanks for your vote!", "success")
     else:
-        flash("Invalid vote type.", "error")
-    db.session.commit()
-    return redirect(url_for('ideas'))
+        return jsonify(status="error", message="Invalid vote type."), 400
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        # Log the error e for debugging if needed.
+        db.session.rollback()
+        return jsonify(status="error", message="Database error."), 500
+
+    return jsonify(
+        status="success",
+        message="Thanks for your vote!",
+        up_votes=idea.up_votes,
+        down_votes=idea.down_votes
+    )
+
+
+
+@app.route('/search')
+def search():
+    query = request.args.get('q', '')
+    if query:
+        # Search in title or description using case-insensitive matching
+        results = Idea.query.filter(
+            or_(
+                Idea.title.ilike(f'%{query}%'),
+                Idea.description.ilike(f'%{query}%')
+            )
+        ).order_by(Idea.timestamp.desc()).all()
+    else:
+        results = []
+    return render_template('search_results.html', ideas=results, query=query)
+
 
 if __name__ == '__main__':
     # Create the database tables if they don't exist

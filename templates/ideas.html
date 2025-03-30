@@ -1,156 +1,178 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>All Ideas</title>
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <!-- Pico CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-             font-size: 1.1rem;
-           }
-       /* Grid layout for idea cards */
-       .ideas-grid {
-         display: grid;
-         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-         gap: 1rem;
-         padding: 1rem;
-       }
-       /* Basic card style using Pico CSS variables */
-       .card {
-         background: var(--color-background);
-         box-shadow: var(--shadow-elevation-medium);
-         padding: 1rem;
-         border-radius: var(--radius);
-         border: 1px solid var(--color-border);
-       }
-       /* Voting section styles */
-       .idea-votes {
-         display: flex;
-         justify-content: space-around;
-         margin-top: 1rem;
-       }
-       .idea-votes a {
-         text-decoration: none;
-         color: var(--color-primary);
-         font-size: 1.3rem;
-       }
-       .idea-votes a:hover i {
-         color: #007bff;
-         cursor: pointer;
-       }
-
-         ul.flashes {
-     list-style: none;
-     padding: 0;
-     margin: 1rem 0;
-   }
-
-   ul.flashes li {
-     padding: 1rem;
-     margin-bottom: 0.5rem;
-     border-radius: 0.25rem;
-     font-weight: 600;
-   }
-
-   /* Success messages */
-   ul.flashes li.flash-success {
-     background-color: #d4edda;
-     border: 1px solid #c3e6cb;
-     color: #155724;
-   }
-
-   /* Error messages */
-   ul.flashes li.flash-error {
-     background-color: #f8d7da;
-     border: 1px solid #f5c6cb;
-     color: #721c24;
-   }
-
-   /* Warning messages (if needed) */
-   ul.flashes li.flash-warning {
-     background-color: #fff3cd;
-     border: 1px solid #ffeeba;
-     color: #856404;
-   }
-.delimiter {
-  margin: 0 10px;
-  color: #666;
-  font-size: 1.5rem;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-    </style>
+  <meta charset="utf-8">
+  <title>All Ideas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Pico CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      font-size: 1.1rem;
+    }
+    /* Grid layout for idea cards */
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+    /* Basic card style using Pico CSS variables */
+    .card {
+      background: var(--color-background);
+      box-shadow: var(--shadow-elevation-medium);
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+    }
+    /* Voting section styles */
+    .idea-votes {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 1rem;
+    }
+    .idea-votes a {
+      text-decoration: none;
+      color: var(--color-primary);
+      font-size: 1.3rem;
+    }
+    .idea-votes a:hover i {
+      color: #007bff;
+      cursor: pointer;
+    }
+    ul.flashes {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+    ul.flashes li {
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+    /* Success messages */
+    ul.flashes li.flash-success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    /* Error messages */
+    ul.flashes li.flash-error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    /* Warning messages (if needed) */
+    ul.flashes li.flash-warning {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+    }
+    .delimiter {
+      margin: 0 10px;
+      color: #666;
+      font-size: 1.5rem;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  </style>
 </head>
 <body>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<ul class="flashes">
-    {% for category, message in messages %}
-    <li class="flash-{{ category }}">{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
-
-
-<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashes">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+  <main>
     <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
-        <nav >
-            <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}"><i
-                    class="fa-regular fa-lightbulb fa-2x"></i></a>
-            <span class="delimiter">|</span>
-            <a data-placement="right" data-tooltip="Sort by Up Votes" href="{{ url_for('ideas', order='upvotes') }}">
-                <i class="fa-regular fa-thumbs-up fa-2x"></i>
-            </a>
-            <span class="delimiter">|</span>
-            <a data-placement="right" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
-                <i class="fa-regular fa-clock fa-2x"></i>
-            </a>
-        </nav>
+      <nav>
+        <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}">
+          <i class="fa-regular fa-lightbulb fa-2x"></i>
+        </a>
+        <span class="delimiter">|</span>
+        <a data-placement="right" data-tooltip="Sort by Up Votes" href="{{ url_for('ideas', order='upvotes') }}">
+          <i class="fa-regular fa-thumbs-up fa-2x"></i>
+        </a>
+        <span class="delimiter">|</span>
+        <a data-placement="right" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
+          <i class="fa-regular fa-clock fa-2x"></i>
+        </a>
+      </nav>
     </header>
     {% if ideas %}
-    <div class="ideas-grid">
+      <div class="ideas-grid">
         {% for idea in ideas %}
-        <article class="card">
+          <article class="card">
             <header>
-
-                <h5>
-                <a style="text-decoration:none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">{{ idea.title }}</a>
-                </h5>
+              <h5>
+                <a style="text-decoration:none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
+                  {{ idea.title }}
+                </a>
+              </h5>
             </header>
             <section>
-                <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
-                <p><i class="fas fa-bolt" title="Impact"></i> {{ idea.impact }}</p>
-                <p><i class="fas fa-user" title="Attribution"></i> {{ idea.attribution }}</p>
-                <p style="color:#777">
-                    <small>
-                        Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-                        (<em>
-                          {{ idea.unique_hash }}
-                        </em>)
-                    </small>
-                </p>
+              <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
+              <p><i class="fas fa-bolt" title="Impact"></i> {{ idea.impact }}</p>
+              <p><i class="fas fa-user" title="Attribution"></i> {{ idea.attribution }}</p>
+              <p style="color:#777;">
+                <small>
+                  Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                  (<em>{{ idea.unique_hash }}</em>)
+                </small>
+              </p>
             </section>
             <footer class="idea-votes">
-                <a data-tooltip="{{ idea.up_votes }} votes" href="{{ url_for('vote', idea_id=idea.id, vote='up') }}">
-                    <i class="fas fa-thumbs-up"></i>
-                </a>
-                <a data-tooltip="{{ idea.down_votes }} votes"
-                   href="{{ url_for('vote', idea_id=idea.id, vote='down') }}">
-                    <i class="fas fa-thumbs-down"></i>
-                </a>
+              <a data-tooltip="{{ idea.up_votes }} votes" href="#"
+                 onclick="voteIdea({{ idea.id }}, 'up', this); return false;">
+                <i class="fas fa-thumbs-up"></i>
+                <span class="upvote-count">{{ idea.up_votes }}</span>
+              </a>
+              <a data-tooltip="{{ idea.down_votes }} votes" href="#"
+                 onclick="voteIdea({{ idea.id }}, 'down', this); return false;">
+                <i class="fas fa-thumbs-down"></i>
+                <span class="downvote-count">{{ idea.down_votes }}</span>
+              </a>
             </footer>
-        </article>
+          </article>
         {% endfor %}
-    </div>
+      </div>
     {% else %}
-    <p>No ideas submitted yet.</p>
+      <p>No ideas submitted yet.</p>
     {% endif %}
-</main>
+  </main>
+  <script>
+    function voteIdea(ideaId, voteType, element) {
+      // Build the vote URL using Flask's url_for('vote') endpoint
+      const url = "{{ url_for('vote') }}" + "?idea_id=" + ideaId + "&vote=" + voteType;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            // Update the vote counts dynamically based on vote type
+            if (voteType === 'up') {
+              element.querySelector('.upvote-count').textContent = data.up_votes;
+              element.setAttribute('data-tooltip', data.up_votes + ' votes');
+            } else if (voteType === 'down') {
+              element.querySelector('.downvote-count').textContent = data.down_votes;
+              element.setAttribute('data-tooltip', data.down_votes + ' votes');
+            }
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while processing your vote.');
+        });
+    }
+  </script>
 </body>
 </html>

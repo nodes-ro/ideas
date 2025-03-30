@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Search Results for "{{ query }}"</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Pico CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    :root {
+      font-size: 1.1rem;
+    }
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+    .card {
+      background: var(--color-background);
+      box-shadow: var(--shadow-elevation-medium);
+      padding: 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--color-border);
+    }
+    .delimiter {
+      margin: 0 10px;
+      color: #666;
+      font-size: 1.5rem;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    header nav a {
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
+      <nav>
+        <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}">
+          <i class="fa-regular fa-lightbulb fa-2x"></i>
+        </a>
+      </nav>
+    </header>
+    <h1>Search Results for "{{ query }}"</h1>
+    {% if ideas %}
+      <div class="ideas-grid">
+        {% for idea in ideas %}
+          <article class="card">
+            <header>
+              <h2>
+                <a style="text-decoration: none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
+                  {{ idea.title }}
+                </a>
+              </h2>
+            </header>
+            <section>
+              <p>{{ idea.description }}</p>
+            </section>
+            <p style="color:#777;">
+              <small>
+                Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                (<em>
+                  <a style="text-decoration: none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
+                    {{ idea.unique_hash }}
+                  </a>
+                </em>)
+              </small>
+            </p>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No results found for your search.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

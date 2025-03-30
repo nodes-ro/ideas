@@ -23,6 +23,14 @@
       margin-top: 1rem;
       font-size: 1.2rem;
     }
+    .idea-votes a {
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+    .idea-votes a:hover i {
+      color: #007bff;
+      cursor: pointer;
+    }
     .back-button {
       margin-top: 2rem;
       display: inline-block;
@@ -53,12 +61,16 @@
       </section>
       {% if idea.up_votes is not none and idea.down_votes is not none %}
       <footer class="idea-votes">
-        <div>
-          <i class="fas fa-thumbs-up"></i> {{ idea.up_votes }}
-        </div>
-        <div>
-          <i class="fas fa-thumbs-down"></i> {{ idea.down_votes }}
-        </div>
+        <a data-tooltip="{{ idea.up_votes }} votes" href="#"
+           onclick="voteIdea({{ idea.id }}, 'up', this); return false;">
+          <i class="fas fa-thumbs-up fa-2x"></i>
+          <span class="upvotes">{{ idea.up_votes }}</span>
+        </a>
+        <a data-tooltip="{{ idea.down_votes }} votes" href="#"
+           onclick="voteIdea({{ idea.id }}, 'down', this); return false;">
+          <i class="fas fa-thumbs-down fa-2x"></i>
+          <span class="downvotes">{{ idea.down_votes }}</span>
+        </a>
       </footer>
       {% endif %}
       <footer class="back-button">
@@ -66,5 +78,34 @@
       </footer>
     </article>
   </main>
+
+  <script>
+    function voteIdea(ideaId, voteType, element) {
+      // Build the vote URL with query parameters
+      const url = `/vote?idea_id=${ideaId}&vote=${voteType}`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            // Update the vote count in the DOM
+            // Assuming the structure: <a><i></i><span class="upvotes/downvotes">...</span></a>
+            if (voteType === 'up') {
+              element.querySelector('.upvotes').textContent = data.up_votes;
+              element.setAttribute('data-tooltip', data.up_votes + ' votes');
+            } else if (voteType === 'down') {
+              element.querySelector('.downvotes').textContent = data.down_votes;
+              element.setAttribute('data-tooltip', data.down_votes + ' votes');
+            }
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while processing your vote.');
+        });
+    }
+  </script>
 </body>
 </html>
