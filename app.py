@@ -1,3 +1,4 @@
+import json
 import os
 
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -108,12 +109,18 @@ def ai_reply():
     return render_template("ai_loading.html", message=user_message)
 
 async def ai_generate_idea(user_message):
-    """Fetch AI response asynchronously with error handling"""
+    """Fetch AI response asynchronously with error handling and split output into title, description, impact, and attribution (default 'AI')."""
     craft_prompt = '''
-    Generate an idea based on user input. It needs to have a title , a description the what impact can have.
+    You are to generate a creative idea based on the user input.
+    The output must be a valid JSON object with exactly four keys:
+      - "title": A concise title for the idea.
+      - "description": A detailed description of the idea.
+      - "impact": A clear outline of the benefits and impact of this idea.
+      - "attribution": Set this field to "AI" by default.
+    Return nothing but the JSON.
     '''
     # Format the user's input
-    user_input = f"Generate an ideea based on this {user_message}. "
+    user_input = f"Generate an idea based on this input: {user_message}"
 
     try:
         response = await client.chat.completions.create(
@@ -124,16 +131,52 @@ async def ai_generate_idea(user_message):
             ]
         )
 
-        # Safely extract the response content
         if response and response.choices and len(response.choices) > 0:
-            return response.choices[0].message.content
+            content = response.choices[0].message.content
+            try:
+                # Parse the JSON from the AI response
+                result = json.loads(content)
+                # If the attribution key is missing, set it to "AI"
+                if "attribution" not in result:
+                    result["attribution"] = "AI"
+                # Verify that all expected keys exist
+                if all(key in result for key in ("title", "description", "impact", "attribution")):
+                    return result
+                else:
+                    return {
+                        "title": "Error",
+                        "description": "Incomplete response. Expected keys not found.",
+                        "impact": "",
+                        "attribution": "AI"
+                    }
+            except Exception as json_e:
+                return {
+                    "title": "Error",
+                    "description": f"Failed to parse JSON response: {str(json_e)}. Raw response: {content}",
+                    "impact": "",
+                    "attribution": "AI"
+                }
         else:
-            return "No response from AI model."
-
+            return {
+                "title": "No Response",
+                "description": "No response from AI model.",
+                "impact": "",
+                "attribution": "AI"
+            }
     except openai.OpenAIError as e:
-        return f"OpenAI API error: {str(e)}"
+        return {
+            "title": "API Error",
+            "description": str(e),
+            "impact": "",
+            "attribution": "AI"
+        }
     except Exception as e:
-        return f"Unexpected error: {str(e)}"
+        return {
+            "title": "Unexpected Error",
+            "description": str(e),
+            "impact": "",
+            "attribution": "AI"
+        }
 
 @app.route("/fetch_ai_reply", methods=["POST"])
 async def fetch_ai_reply():
