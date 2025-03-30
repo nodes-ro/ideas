@@ -114,19 +114,19 @@
   <main>
     <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
       <nav>
-        <a data-placement="right" data-tooltip="Home" href="{{ url_for('index') }}">
+        <a data-placement="bottom" data-tooltip="Home" href="{{ url_for('index') }}">
           <i class="fa-regular fa-lightbulb fa-2x"></i>
         </a>
         <span class="delimiter">|</span>
-        <a data-placement="right" data-tooltip="Sort by Up Votes" href="{{ url_for('ideas', order='upvotes') }}">
+        <a data-placement="bottom" data-tooltip="Sort by Up Votes" href="{{ url_for('ideas', order='upvotes') }}">
           <i class="fa-regular fa-thumbs-up fa-2x"></i>
         </a>
         <span class="delimiter">|</span>
-        <a data-placement="right" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
+        <a data-placement="bottom" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
           <i class="fa-regular fa-clock fa-2x"></i>
         </a>
         <span class="delimiter">|</span>
-        <a data-placement="right" data-tooltip="Sort Alphabetically" href="{{ url_for('ideas', order='alphabetical') }}">
+        <a data-placement="bottom" data-tooltip="Sort Alphabetically" href="{{ url_for('ideas', order='alphabetical') }}">
           <i class="fa-solid fa-sort-alpha-down fa-2x"></i>
         </a>
       </nav>
