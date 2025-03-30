@@ -76,6 +76,13 @@
      border: 1px solid #ffeeba;
      color: #856404;
    }
+.delimiter {
+  margin: 0 10px;
+  color: #666;
+  font-size: 1.5rem;
+  display: inline-block;
+  vertical-align: middle;
+}
 
     </style>
 </head>
@@ -92,9 +99,18 @@
 
 
 <main>
-    <header>
-        <nav style="margin-left:10px;">
-            <a data-tooltip="New idea" data-placement="right" href="{{ url_for('index') }}"><i class="fa-regular fa-lightbulb fa-2x"></i></a>
+    <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <nav >
+            <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}"><i
+                    class="fa-regular fa-lightbulb fa-2x"></i></a>
+            <span class="delimiter">|</span>
+            <a data-placement="right" data-tooltip="Sort by Up Votes" href="{{ url_for('ideas', order='upvotes') }}">
+                <i class="fa-regular fa-thumbs-up fa-2x"></i>
+            </a>
+            <span class="delimiter">|</span>
+            <a data-placement="right" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
+                <i class="fa-regular fa-clock fa-2x"></i>
+            </a>
         </nav>
     </header>
     {% if ideas %}
@@ -103,7 +119,9 @@
         <article class="card">
             <header>
 
-                <h5>{{ idea.title }}</h5>
+                <h5>
+                <a style="text-decoration:none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">{{ idea.title }}</a>
+                </h5>
             </header>
             <section>
                 <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
@@ -112,7 +130,9 @@
                 <p style="color:#777">
                     <small>
                         Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-                        (<em>{{ idea.unique_hash }}</em>)
+                        (<em>
+                          {{ idea.unique_hash }}
+                        </em>)
                     </small>
                 </p>
             </section>

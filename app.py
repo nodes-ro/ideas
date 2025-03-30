@@ -30,8 +30,21 @@ def submit_idea():
 
 @app.route('/ideas')
 def ideas():
-    all_ideas = Idea.query.order_by(Idea.timestamp.desc()).all()
+    order = request.args.get('order')
+    if order == 'upvotes':
+        all_ideas = Idea.query.order_by(Idea.up_votes.desc()).all()
+    else:
+        all_ideas = Idea.query.order_by(Idea.timestamp.desc()).all()
     return render_template('ideas.html', ideas=all_ideas)
+
+@app.route('/idea/<unique_hash>')
+def idea_detail(unique_hash):
+    idea = Idea.query.filter_by(unique_hash=unique_hash).first()
+    if idea is None:
+        return render_template('404_custom.html'), 404
+    return render_template('idea_detail.html', idea=idea)
+
+
 
 @app.route('/vote')
 def vote():

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ idea.title }} - Idea Detail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Pico CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <!-- Font Awesome (optional, if you use icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    /* Optional custom styling for the detail page */
+    .idea-header {
+      margin-bottom: 1rem;
+    }
+    .idea-meta {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .idea-votes {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+    .back-button {
+      margin-top: 2rem;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <article class="card">
+      <header class="idea-header">
+        <h1>{{ idea.title }}</h1>
+        <p class="idea-meta">
+          Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+          (<em>{{ idea.unique_hash }}</em>)
+        </p>
+      </header>
+      <section>
+        <h2>Description</h2>
+        <p>{{ idea.description }}</p>
+      </section>
+      <section>
+        <h2>Impact</h2>
+        <p>{{ idea.impact }}</p>
+      </section>
+      <section>
+        <h2>Attribution</h2>
+        <p>{{ idea.attribution }}</p>
+      </section>
+      {% if idea.up_votes is not none and idea.down_votes is not none %}
+      <footer class="idea-votes">
+        <div>
+          <i class="fas fa-thumbs-up"></i> {{ idea.up_votes }}
+        </div>
+        <div>
+          <i class="fas fa-thumbs-down"></i> {{ idea.down_votes }}
+        </div>
+      </footer>
+      {% endif %}
+      <footer class="back-button">
+        <button class="contrast" onclick="history.back()">← Back</button>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>
