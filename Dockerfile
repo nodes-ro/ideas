@@ -23,4 +23,4 @@ EXPOSE 8005
 ENV PYTHONUNBUFFERED=1
 
 # Run the Flask app with Gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:8005", "--workers", "1", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8005", "--workers", "4", "app:app"]
