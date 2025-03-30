@@ -80,12 +80,18 @@
     </div>
     {% else %}
     <p>No results found for your search.</p>
+    <hr/>
     <p>
       <em>Not sure what to do? Use our AI to generate a fresh idea based on your input: "{{ query }}"</em>
     </p>
-
-        <a href="{{ url_for('ai_reply', message=query) }}" class="contrast">Generate Idea</a>
+    <p>
+        <a href="{{ url_for('ai_reply', message=query) }}" role="button" class="contrast">Generate Idea</a>
+    </p>
     {% endif %}
+
+     <footer class="back-button">
+        <button class="contrast" onclick="history.back()">← Back</button>
+      </footer>
 </main>
 </body>
 </html>
