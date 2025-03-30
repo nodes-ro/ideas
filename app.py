@@ -19,6 +19,10 @@ app.secret_key = 'your_secret_key'  # Needed for flash messages
 # Initialize the SQLAlchemy instance with the app
 db.init_app(app)
 
+@app.route('/support')
+def support():
+    return render_template('support.html')
+
 @app.route('/')
 def index():
     return render_template('index.html')
