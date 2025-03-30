@@ -115,16 +115,23 @@ def ai_reply():
 async def ai_generate_idea(user_message):
     """Fetch AI response asynchronously with error handling and split output into title, description, impact, and attribution (default 'AI')."""
     craft_prompt = '''
-    You are to generate a creative idea based on the user input.
+    You are to generate a creative idea based on the user input. 
     The output must be a valid JSON object with exactly four keys:
       - "title": A concise title for the idea.
       - "description": A detailed description of the idea.
       - "impact": A clear outline of the benefits and impact of this idea.
       - "attribution": Set this field to "AI" by default.
+    Important:
+  - Your response must not contain any obscene, illegal, or harmful content.
+  - If the user's input includes requests or terms that are obscene or illegal, instead of generating a creative idea, return a JSON object with the following values:
+      "title": "Invalid Input",
+      "description": "The provided input is not allowed.",
+      "impact": "",
+      "attribution": "AI"
     Return nothing but the JSON.
     '''
     # Format the user's input
-    user_input = f"Generate an idea based on this input: {user_message}"
+    user_input = f"Generate an idea based on this input: {user_message} Use the same language for the output as the input."
 
     try:
         response = await client.chat.completions.create(
