@@ -61,11 +61,11 @@
         {% for idea in ideas %}
         <article class="card">
             <header>
-                <h2>
+                <h5>
                     <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" style="text-decoration: none;">
                         {{ idea.title }}
                     </a>
-                </h2>
+                </h5>
             </header>
             <section>
                 <p>{{ idea.description }}</p>
@@ -73,11 +73,6 @@
             <p style="color:#777;">
                 <small>
                     Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-                    (<em>
-                    <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" style="text-decoration: none;">
-                        {{ idea.unique_hash }}
-                    </a>
-                </em>)
                 </small>
             </p>
         </article>
