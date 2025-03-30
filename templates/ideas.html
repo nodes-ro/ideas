@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>All Ideas</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Pico CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+             font-size: 1.1rem;
+           }
+       /* Grid layout for idea cards */
+       .ideas-grid {
+         display: grid;
+         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+         gap: 1rem;
+         padding: 1rem;
+       }
+       /* Basic card style using Pico CSS variables */
+       .card {
+         background: var(--color-background);
+         box-shadow: var(--shadow-elevation-medium);
+         padding: 1rem;
+         border-radius: var(--radius);
+         border: 1px solid var(--color-border);
+       }
+       /* Voting section styles */
+       .idea-votes {
+         display: flex;
+         justify-content: space-around;
+         margin-top: 1rem;
+       }
+       .idea-votes a {
+         text-decoration: none;
+         color: var(--color-primary);
+         font-size: 1.5rem;
+       }
+       .idea-votes a:hover i {
+         color: #007bff;
+         cursor: pointer;
+       }
+
+         ul.flashes {
+     list-style: none;
+     padding: 0;
+     margin: 1rem 0;
+   }
+
+   ul.flashes li {
+     padding: 1rem;
+     margin-bottom: 0.5rem;
+     border-radius: 0.25rem;
+     font-weight: 600;
+   }
+
+   /* Success messages */
+   ul.flashes li.flash-success {
+     background-color: #d4edda;
+     border: 1px solid #c3e6cb;
+     color: #155724;
+   }
+
+   /* Error messages */
+   ul.flashes li.flash-error {
+     background-color: #f8d7da;
+     border: 1px solid #f5c6cb;
+     color: #721c24;
+   }
+
+   /* Warning messages (if needed) */
+   ul.flashes li.flash-warning {
+     background-color: #fff3cd;
+     border: 1px solid #ffeeba;
+     color: #856404;
+   }
+
+    </style>
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<ul class="flashes">
+    {% for category, message in messages %}
+    <li class="flash-{{ category }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<header>
+    <nav>
+        <a href="{{ url_for('index') }}">Add New Idea</a>
+    </nav>
+</header>
+<main>
+    {% if ideas %}
+    <div class="ideas-grid">
+        {% for idea in ideas %}
+        <article class="card">
+            <header>
+
+                <h2>{{ idea.title }}</h2>
+            </header>
+            <section>
+                <p><strong>Description:</strong> {{ idea.description }}</p>
+                <p><strong>Impact:</strong> {{ idea.impact }}</p>
+                <p><strong>Attribution:</strong> {{ idea.attribution }}</p>
+                <p>
+                    <small>
+                        Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                        (<em>{{ idea.unique_hash }}</em>)
+                    </small>
+                </p>
+            </section>
+            <footer class="idea-votes">
+                <a data-tooltip="I like this idea" href="{{ url_for('vote', idea_id=idea.id, vote='up') }}">
+                    <span>{{ idea.up_votes }}</span>
+                    <i class="fas fa-thumbs-up"></i>
+
+                </a>
+                <a data-tooltip="I don't like this" href="{{ url_for('vote', idea_id=idea.id, vote='down') }}">
+                    <i class="fas fa-thumbs-down"></i>
+                    <span>{{ idea.down_votes }}</span>
+                </a>
+            </footer>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No ideas submitted yet.</p>
+    {% endif %}
+</main>
+</body>
+</html>

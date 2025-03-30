@@ -63,9 +63,54 @@
         summary {
           cursor: pointer;
         }
+
+        ul.flashes {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+ul.flashes li {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+/* Success messages */
+ul.flashes li.flash-success {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+/* Error messages */
+ul.flashes li.flash-error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+/* Warning messages (if needed) */
+ul.flashes li.flash-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+}
+
     </style>
 </head>
 <body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+        <li class="flash-{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 
 <h1 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
     <img alt="Brain Logo" height="128" src="{{ url_for('static', filename='logo_brain.png') }}" width="128">
@@ -86,7 +131,10 @@
     <a class="contrast" href="#idea-modal" id="open-modal" role="button">
         <i class="fas fa-plus-circle"></i> Add Your Idea
     </a>
-    <a href="/ideas" role="button"><i class="fas fa-folder-open"></i> Browse Ideas</a>
+  <a href="{{ url_for('ideas') }}" role="button" class="primary" data-tooltip="Browse all submitted ideas">
+  <i class="fas fa-folder-open"></i> Browse Ideas
+</a>
+
 </div>
 
 <!-- Pico.css Modal Popup Form -->
@@ -101,18 +149,25 @@
             <!-- Use a proper form submission method and action -->
             <form action="{{ url_for('submit_idea') }}" method="post">
                 <!-- Include CSRF token if needed, e.g.: -->
-                <div>
-                    <label for="idea-title">Title</label>
-                    <input id="idea-title" name="title" placeholder="Enter your idea title" required type="text">
+                <div data-tooltip="E.g., 'Collaborative AI Meeting Assistant'">
+                    <input id="idea-title" name="title" placeholder="Enter your idea title" type="text" required>
                 </div>
-                <div>
-                    <label for="idea-description">Description</label>
+                <div data-tooltip="E.g., 'The app uses AI to highlight key points immediately after a meeting ends.'">
                     <textarea id="idea-description" name="description" placeholder="Describe your idea..."
                               required></textarea>
                 </div>
+                <div data-tooltip="E.g., 'Significantly boost team productivity by reducing taking meeting notes.'">
+                    <textarea id="idea-impact" name="impact" placeholder="Outline the expected benefits or impact...."
+                              required></textarea>
+                </div>
+                <hr/>
+                <div data-tooltip="E.g., 'Submitted by Jane Doe, jane.doe@example.com'">
+                    <input id="idea-attribution" name="attribution" placeholder="Enter attribution (e.g., original source, your name) or contact details"
+                           type="text" required>
+                </div>
                 <fieldset role="group">
                     <!-- Cancel handled via JS, Submit now properly submits the form -->
-                    <button class="outline" href="#" id="cancel-link">Cancel</button>
+                    <button class="outline" id="cancel-link">Cancel</button>
                     <button class="primary" type="submit">Submit</button>
                 </fieldset>
             </form>
