@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ideas.nodes.ro</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <!-- Pico CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      font-size: 1.1rem;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+    }
+    .search-form {
+      max-width: 800px;
+      width: 100%;
+      margin: 2rem 0;
+    }
+    .search-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    input[type="search"] {
+      padding: 1.2rem;
+      font-size: 1.3rem;
+      flex: 1 1 auto;
+    }
+    button[type="submit"] {
+      padding: 0.6rem 0.8rem;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    details[open] summary::after {
+      transform: rotate(90deg);
+    }
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    summary {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+    <img alt="Brain Logo" height="128" src="{{ url_for('static', filename='logo_brain.png') }}" width="128">
+  </h1>
+
+  <p>Share your idea. Vote on others. Let creativity flow.</p>
+
+  <form action="/search" class="search-form" method="get">
+    <div class="search-row">
+      <input aria-label="Search" name="q" placeholder="Search for an idea..." style="flex: 1;" type="search">
+
+    </div>
+
+    <details style="margin-top: 1rem;">
+      <summary><i class="fas fa-list"></i> Filter by Category</summary>
+      <div class="checkbox-grid">
+        <label><input checked name="category" type="checkbox" value="all"> All</label>
+        <label><input name="category" type="checkbox" value="digital-content"> Digital Content (Technology &amp;
+          Software)</label>
+      </div>
+    </details>
+  </form>
+
+  <div class="buttons">
+    <a id="open-modal" class="contrast" href="#idea-modal" role="button">
+      <i class="fas fa-plus-circle"></i> Add Your Idea
+    </a>
+    <a href="/ideas" role="button"><i class="fas fa-folder-open"></i> Browse Ideas</a>
+  </div>
+
+  <!-- Pico.css Modal Popup Form -->
+  <dialog id="idea-modal">
+    <article>
+      <header>
+        <h3>
+          <i class="fas fa-lightbulb"></i> Add Your Idea
+        </h3>
+      </header>
+      <section>
+        <form method="dialog">
+          <div>
+            <input id="idea-title" name="title" placeholder="Enter your idea title" type="text">
+          </div>
+          <div>
+            <textarea id="idea-description" name="description" placeholder="Describe your idea..."></textarea>
+          </div>
+          <fieldset role="group">
+            <a id="cancel-link" class="outline" href="#">Cancel</a>
+            <a class="primary" href="{{ url_for('submit_idea') }}">Submit</a>
+          </fieldset>
+        </form>
+      </section>
+    </article>
+  </dialog>
+
+  <!-- Vanilla JS for modal functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('idea-modal');
+      const openModalButton = document.getElementById('open-modal');
+      const cancelLink = document.getElementById('cancel-link');
+
+      // Open the modal when "Add Your Idea" is clicked
+      openModalButton.addEventListener('click', e => {
+        e.preventDefault();
+        modal.showModal();
+      });
+
+      // Close the modal when "Cancel" is clicked
+      cancelLink.addEventListener('click', e => {
+        e.preventDefault();
+        modal.close();
+      });
+    });
+  </script>
+
+</body>
+</html>
