@@ -75,6 +75,9 @@
       {% endif %}
       <footer class="back-button">
         <button class="contrast" onclick="history.back()">← Back</button>
+         <a role="button" class="share-button" href="#" data-tooltip="Share this idea" onclick="shareIdea('{{ url_for('idea_detail', unique_hash=idea.unique_hash, _external=True) }}', '{{ idea.title }}'); return false;">
+          <i class="fa-solid fa-share"></i>
+        </a>
       </footer>
     </article>
   </main>
@@ -105,6 +108,19 @@
           console.error('Error:', error);
           alert('An error occurred while processing your vote.');
         });
+    }
+
+     function shareIdea(url, title) {
+      if (navigator.share) {
+        navigator.share({
+          title: title,
+          text: 'Check out this idea!',
+          url: url
+        }).catch(error => console.error('Error sharing:', error));
+      } else {
+        // Fallback: show a prompt with the URL to copy.
+        prompt("Copy this link to share:", url);
+      }
     }
   </script>
 </body>
