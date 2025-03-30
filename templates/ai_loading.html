@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Generating AI Response...</title>
+    <style>
+        .blinking-text {
+            animation: blink 1.5s infinite;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .loading-container {
+            text-align: center;
+            margin-top: 20%;
+            font-family: Arial, sans-serif;
+        }
+        .spinner {
+            border: 6px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="loading-container">
+    <h2 class="blinking-text">Generating AI Response...</h2>
+    <div class="spinner"></div>
+    <p>Your request is being processed based on the location you set in the emergency plan dashboard: <strong>{{ home_address }}</strong>. <br />Please wait while we
+        gather the information.</p>
+</div>
+
+<form action="/fetch_ai_reply" id="aiForm" method="POST">
+    <input name="message" type="hidden" value="{{ message }}">
+    <input name="home_address" type="hidden" value="{{ home_address }}">
+</form>
+
+<script>
+    setTimeout(() => {
+        document.getElementById("aiForm").submit();
+    }, 500);  // Submits after0 .5 sec
+</script>
+
+</body>
+</html>

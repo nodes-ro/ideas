@@ -1,9 +1,14 @@
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
-from model import db, Idea
 from sqlalchemy import or_  # Import the "or_" function
+from flask import jsonify, request
+from model import db, Idea
+import openai
 
 app = Flask(__name__)
+client = openai.AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ideas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key'  # Needed for flash messages
@@ -45,13 +50,6 @@ def idea_detail(unique_hash):
         return render_template('404_custom.html'), 404
     return render_template('idea_detail.html', idea=idea)
 
-
-from flask import jsonify
-
-
-from flask import jsonify, request
-from model import db, Idea
-
 @app.route('/vote')
 def vote():
     try:
@@ -86,8 +84,6 @@ def vote():
         down_votes=idea.down_votes
     )
 
-
-
 @app.route('/search')
 def search():
     query = request.args.get('q', '')
@@ -102,6 +98,50 @@ def search():
     else:
         results = []
     return render_template('search_results.html', ideas=results, query=query)
+
+@app.route("/ai_reply", methods=["GET"])
+def ai_reply():
+    # 1. start point for ai generation
+    user_message = request.args.get("message", "").strip()
+    if not user_message:
+        return render_template("ai_reply.html", reply="No message provided.")
+    return render_template("ai_loading.html", message=user_message)
+
+async def ai_generate_idea(user_message):
+    """Fetch AI response asynchronously with error handling"""
+    craft_prompt = '''
+    Generate an idea based on user input. It needs to have a title , a description the what impact can have.
+    '''
+    # Format the user's input
+    user_input = f"Generate an ideea based on this {user_message}. "
+
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": craft_prompt},
+                {"role": "user", "content": user_input}
+            ]
+        )
+
+        # Safely extract the response content
+        if response and response.choices and len(response.choices) > 0:
+            return response.choices[0].message.content
+        else:
+            return "No response from AI model."
+
+    except openai.OpenAIError as e:
+        return f"OpenAI API error: {str(e)}"
+    except Exception as e:
+        return f"Unexpected error: {str(e)}"
+
+@app.route("/fetch_ai_reply", methods=["POST"])
+async def fetch_ai_reply():
+    user_message = request.form.get("message", "").strip()  # Use request.form for POST
+    if not user_message:
+        return render_template("ai_reply.html", reply="No message provided.")
+    ai_response = await ai_generate_idea(user_message)
+    return render_template("ai_reply.html", reply=ai_response)
 
 
 if __name__ == '__main__':

@@ -1,83 +1,91 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Search Results for "{{ query }}"</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Pico CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <style>
-    :root {
-      font-size: 1.1rem;
-    }
-    .ideas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-    .card {
-      background: var(--color-background);
-      box-shadow: var(--shadow-elevation-medium);
-      padding: 1rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--color-border);
-    }
-    .delimiter {
-      margin: 0 10px;
-      color: #666;
-      font-size: 1.5rem;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    header nav a {
-      text-decoration: none;
-      color: var(--color-primary);
-    }
-  </style>
+    <meta charset="utf-8">
+    <title>Search Results for "{{ query }}"</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Pico CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding:20px;
+        }
+        :root {
+          font-size: 1.1rem;
+        }
+        .ideas-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1rem;
+          padding: 1rem;
+        }
+        .card {
+          background: var(--color-background);
+          box-shadow: var(--shadow-elevation-medium);
+          padding: 1rem;
+          border-radius: var(--radius);
+          border: 1px solid var(--color-border);
+        }
+        .delimiter {
+          margin: 0 10px;
+          color: #666;
+          font-size: 1.5rem;
+          display: inline-block;
+          vertical-align: middle;
+        }
+        header nav a {
+          text-decoration: none;
+          color: var(--color-primary);
+        }
+    </style>
 </head>
 <body>
-  <main>
+<main>
     <header style="display: flex; justify-content: center; align-items: center; width: 100%;">
-      <nav>
-        <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}">
-          <i class="fa-regular fa-lightbulb fa-2x"></i>
-        </a>
-      </nav>
+        <nav>
+            <a data-placement="right" data-tooltip="New idea" href="{{ url_for('index') }}">
+                <i class="fa-regular fa-lightbulb fa-2x"></i>
+            </a>
+        </nav>
     </header>
     <h1>Search Results for "{{ query }}"</h1>
     {% if ideas %}
-      <div class="ideas-grid">
+    <div class="ideas-grid">
         {% for idea in ideas %}
-          <article class="card">
+        <article class="card">
             <header>
-              <h2>
-                <a style="text-decoration: none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
-                  {{ idea.title }}
-                </a>
-              </h2>
+                <h2>
+                    <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" style="text-decoration: none;">
+                        {{ idea.title }}
+                    </a>
+                </h2>
             </header>
             <section>
-              <p>{{ idea.description }}</p>
+                <p>{{ idea.description }}</p>
             </section>
             <p style="color:#777;">
-              <small>
-                Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-                (<em>
-                  <a style="text-decoration: none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
-                    {{ idea.unique_hash }}
-                  </a>
+                <small>
+                    Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                    (<em>
+                    <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" style="text-decoration: none;">
+                        {{ idea.unique_hash }}
+                    </a>
                 </em>)
-              </small>
+                </small>
             </p>
-          </article>
+        </article>
         {% endfor %}
-      </div>
+    </div>
     {% else %}
-      <p>No results found for your search.</p>
+    <p>No results found for your search.</p>
+    <p>
+      <em>Not sure what to do? Use our AI to generate a fresh idea based on your input: "{{ query }}"</em>
+    </p>
+
+        <a href="{{ url_for('ai_reply', message=query) }}" class="contrast">Generate Idea</a>
     {% endif %}
-  </main>
+</main>
 </body>
 </html>
