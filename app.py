@@ -55,6 +55,9 @@ def idea_detail(unique_hash):
         return render_template('404_custom.html'), 404
     return render_template('idea_detail.html', idea=idea)
 
+from flask import session, jsonify, request
+from sqlalchemy import func
+
 @app.route('/vote')
 def vote():
     try:
@@ -68,6 +71,11 @@ def vote():
     if idea is None:
         return jsonify(status="error", message="Idea not found."), 404
 
+    # Prevent multiple votes for the same idea within the same session.
+    voted_key = f"voted_{idea_id}"
+    if session.get(voted_key):
+        return jsonify(status="error", message="You have already voted for this idea."), 403
+
     if vote_type == 'up':
         idea.up_votes += 1
     elif vote_type == 'down':
@@ -77,8 +85,9 @@ def vote():
 
     try:
         db.session.commit()
+        # Mark the idea as voted in the session
+        session[voted_key] = True
     except Exception as e:
-        # Log the error e for debugging if needed.
         db.session.rollback()
         return jsonify(status="error", message="Database error."), 500
 
@@ -88,6 +97,7 @@ def vote():
         up_votes=idea.up_votes,
         down_votes=idea.down_votes
     )
+
 
 @app.route('/search')
 def search():
