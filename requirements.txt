@@ -2,3 +2,4 @@ flask~=3.1.0
 sqlalchemy~=2.0.40
 openai~=1.69.0
 gunicorn==20.1.0
+Flask-SQLAlchemy==3.1.1
