@@ -140,8 +140,8 @@ async def ai_generate_idea(user_message):
   - If the user's input includes requests or terms that are obscene or illegal, instead of generating a creative idea, return a JSON object with the following values:
       "title": "Invalid Input",
       "description": "The provided input is not allowed.",
-      "impact": "",
-      "attribution": "AI"
+      "impact": "The provided input is not allowed.",
+      "attribution": "User"
     Return nothing but the JSON.
     '''
     # Format the user's input
