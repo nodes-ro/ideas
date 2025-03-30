@@ -6,6 +6,8 @@ from sqlalchemy import or_  # Import the "or_" function
 from flask import jsonify, request
 from model import db, Idea
 import openai
+from sqlalchemy import func
+
 
 app = Flask(__name__)
 client = openai.AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -40,6 +42,8 @@ def ideas():
     order = request.args.get('order')
     if order == 'upvotes':
         all_ideas = Idea.query.order_by(Idea.up_votes.desc()).all()
+    elif order == 'alphabetical':
+        all_ideas = Idea.query.order_by(func.lower(Idea.title).asc()).all()
     else:
         all_ideas = Idea.query.order_by(Idea.timestamp.desc()).all()
     return render_template('ideas.html', ideas=all_ideas)

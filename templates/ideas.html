@@ -27,16 +27,23 @@
       border-radius: var(--radius);
       border: 1px solid var(--color-border);
     }
+    /* Styling for details/summary elements */
+    details.card summary {
+      cursor: pointer;
+      font-size: 1.25rem;
+      font-weight: bold;
+      padding: 0.5rem;
+    }
     /* Voting section styles */
     .idea-votes {
       display: flex;
       justify-content: space-around;
       margin-top: 1rem;
+      font-size: 1.3rem;
     }
     .idea-votes a {
       text-decoration: none;
       color: var(--color-primary);
-      font-size: 1.3rem;
     }
     .idea-votes a:hover i {
       color: #007bff;
@@ -65,7 +72,7 @@
       border: 1px solid #f5c6cb;
       color: #721c24;
     }
-    /* Warning messages (if needed) */
+    /* Warning messages */
     ul.flashes li.flash-warning {
       background-color: #fff3cd;
       border: 1px solid #ffeeba;
@@ -104,19 +111,22 @@
         <a data-placement="right" data-tooltip="Sort by Latest" href="{{ url_for('ideas', order='timestamp') }}">
           <i class="fa-regular fa-clock fa-2x"></i>
         </a>
+         <span class="delimiter">|</span>
+        <a data-placement="right" data-tooltip="Sort Alphabetically" href="{{ url_for('ideas', order='alphabetical') }}">
+          <i class="fa-solid fa-sort-alpha-down fa-2x"></i>
+        </a>
+
       </nav>
     </header>
     {% if ideas %}
       <div class="ideas-grid">
         {% for idea in ideas %}
-          <article class="card">
-            <header>
-              <h5>
-                <a style="text-decoration:none;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
-                  {{ idea.title }}
-                </a>
-              </h5>
-            </header>
+          <details class="card">
+            <summary>
+              <a style="text-decoration: none; color: inherit;" href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}">
+                {{ idea.title }}
+              </a>
+            </summary>
             <section>
               <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
               <p><i class="fas fa-bolt" title="Impact"></i> {{ idea.impact }}</p>
@@ -131,16 +141,16 @@
             <footer class="idea-votes">
               <a data-tooltip="{{ idea.up_votes }} votes" href="#"
                  onclick="voteIdea({{ idea.id }}, 'up', this); return false;">
-                <i class="fas fa-thumbs-up"></i>
+                <i class="fas fa-thumbs-up fa-2x"></i>
                 <span class="upvote-count">{{ idea.up_votes }}</span>
               </a>
               <a data-tooltip="{{ idea.down_votes }} votes" href="#"
                  onclick="voteIdea({{ idea.id }}, 'down', this); return false;">
-                <i class="fas fa-thumbs-down"></i>
+                <i class="fas fa-thumbs-down fa-2x"></i>
                 <span class="downvote-count">{{ idea.down_votes }}</span>
               </a>
             </footer>
-          </article>
+          </details>
         {% endfor %}
       </div>
     {% else %}
@@ -149,14 +159,11 @@
   </main>
   <script>
     function voteIdea(ideaId, voteType, element) {
-      // Build the vote URL using Flask's url_for('vote') endpoint
       const url = "{{ url_for('vote') }}" + "?idea_id=" + ideaId + "&vote=" + voteType;
-
       fetch(url)
         .then(response => response.json())
         .then(data => {
           if (data.status === "success") {
-            // Update the vote counts dynamically based on vote type
             if (voteType === 'up') {
               element.querySelector('.upvote-count').textContent = data.up_votes;
               element.setAttribute('data-tooltip', data.up_votes + ' votes');
