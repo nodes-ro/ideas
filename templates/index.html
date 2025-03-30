@@ -11,9 +11,12 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
           font-size: 1.1rem;
+          font-family: 'Roboto', sans-serif;
         }
         body {
           display: flex;
@@ -157,7 +160,7 @@ ul.flashes li.flash-warning {
 </h1>
 
 
-<p>Share your idea. Vote on others. Let creativity flow.</p>
+<p>Share your idea. Vote on others. Spark creativity.</p>
 
 <form action="/search" class="search-form" method="get" role="search">
     <fieldset role="group">
@@ -242,10 +245,10 @@ ul.flashes li.flash-warning {
       });
     });
 </script>
-  <!-- Support this page -->
-    <footer>
-                <i class="fa-solid fa-hand-holding-heart"></i>
-                <a class="outline contrast" href="{{ url_for('support') }}"> <b> How to support this page ?</b></a>
-    </footer>
+<!-- Support this page -->
+<footer>
+    <i class="fa-solid fa-hand-holding-heart"></i>
+    <a class="outline contrast" href="{{ url_for('support') }}"> <b> How to support this page ?</b></a>
+</footer>
 </body>
 </html>

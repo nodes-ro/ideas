@@ -6,33 +6,39 @@
     <title>AI Reply</title>
     <link href="https://unpkg.com/@picocss/pico@2.0.6/css/pico.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Optional custom styling for the AI reply form */
-        .ai-reply-form {
-          margin-top: 1rem;
-          padding: 1rem;
-        }
-        .ai-reply-form header h3 {
-          margin-bottom: 0.5rem;
-        }
-        .ai-reply-form section {
-          margin-bottom: 1rem;
-        }
-        .ai-reply-form label {
-          font-weight: bold;
-          display: block;
-          margin-bottom: 0.3rem;
-        }
-        .ai-reply-form input,
-        .ai-reply-form textarea {
-          width: 100%;
-          box-sizing: border-box;
-        }
-        fieldset[role="group"] {
-          display: flex;
-          gap: 1rem;
-          justify-content: flex-end;
-        }
+        :root {
+       font-size: 1.1rem;
+       font-family: 'Roboto', sans-serif;
+     }
+     /* Optional custom styling for the AI reply form */
+     .ai-reply-form {
+       margin-top: 1rem;
+       padding: 1rem;
+     }
+     .ai-reply-form header h3 {
+       margin-bottom: 0.5rem;
+     }
+     .ai-reply-form section {
+       margin-bottom: 1rem;
+     }
+     .ai-reply-form label {
+       font-weight: bold;
+       display: block;
+       margin-bottom: 0.3rem;
+     }
+     .ai-reply-form input,
+     .ai-reply-form textarea {
+       width: 100%;
+       box-sizing: border-box;
+     }
+     fieldset[role="group"] {
+       display: flex;
+       gap: 1rem;
+       justify-content: flex-end;
+     }
     </style>
 </head>
 <body>
@@ -69,7 +75,8 @@
                    type="text" value="{{ reply.attribution }}">
         </div>
         <fieldset role="group">
-            <button class="outline" type="button" onclick="window.location.href='{{ url_for('index') }}'">Cancel</button>
+            <button class="outline" onclick="window.location.href='{{ url_for('index') }}'" type="button">Cancel
+            </button>
             <button class="primary" type="submit">Submit Idea</button>
         </fieldset>
     </form>

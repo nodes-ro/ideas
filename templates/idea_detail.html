@@ -1,88 +1,91 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ idea.title }} - Idea Detail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Pico CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-  <!-- Font Awesome (optional, if you use icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-  <style>
-    /* Optional custom styling for the detail page */
-    .idea-header {
-      margin-bottom: 1rem;
-    }
-    .idea-meta {
-      font-size: 0.9rem;
-      color: #666;
-    }
-    .idea-votes {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-      font-size: 1.2rem;
-    }
-    .idea-votes a {
-      text-decoration: none;
-      color: var(--color-primary);
-    }
-    .idea-votes a:hover i {
-      color: #007bff;
-      cursor: pointer;
-    }
-    .back-button {
-      margin-top: 2rem;
-      display: inline-block;
-    }
-  </style>
+    <meta charset="utf-8">
+    <title>{{ idea.title }} - Idea Detail</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <!-- Pico CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" rel="stylesheet">
+    <!-- Font Awesome (optional, if you use icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Optional custom styling for the detail page */
+        .idea-header {
+          margin-bottom: 1rem;
+        }
+        .idea-meta {
+          font-size: 0.9rem;
+          color: #666;
+        }
+        .idea-votes {
+          display: flex;
+          gap: 1rem;
+          margin-top: 1rem;
+          font-size: 1.2rem;
+        }
+        .idea-votes a {
+          text-decoration: none;
+          color: var(--color-primary);
+        }
+        .idea-votes a:hover i {
+          color: #007bff;
+          cursor: pointer;
+        }
+        .back-button {
+          margin-top: 2rem;
+          display: inline-block;
+        }
+    </style>
 </head>
 <body>
-  <main class="container">
+<main class="container">
     <article class="card">
-      <header class="idea-header">
-        <h1>{{ idea.title }}</h1>
-        <p class="idea-meta">
-          Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-          (<em>{{ idea.unique_hash }}</em>)
-        </p>
-      </header>
-      <section>
-        <h2>Description</h2>
-        <p>{{ idea.description }}</p>
-      </section>
-      <section>
-        <h2>Impact</h2>
-        <p>{{ idea.impact }}</p>
-      </section>
-      <section>
-        <h2>Attribution</h2>
-        <p>{{ idea.attribution }}</p>
-      </section>
-      {% if idea.up_votes is not none and idea.down_votes is not none %}
-      <footer class="idea-votes">
-        <a data-tooltip="{{ idea.up_votes }} votes" href="#"
-           onclick="voteIdea({{ idea.id }}, 'up', this); return false;">
-          <i class="fas fa-thumbs-up fa-2x"></i>
-          <span class="upvotes">{{ idea.up_votes }}</span>
-        </a>
-        <a data-tooltip="{{ idea.down_votes }} votes" href="#"
-           onclick="voteIdea({{ idea.id }}, 'down', this); return false;">
-          <i class="fas fa-thumbs-down fa-2x"></i>
-          <span class="downvotes">{{ idea.down_votes }}</span>
-        </a>
-      </footer>
-      {% endif %}
-      <footer class="back-button">
-        <button class="contrast" onclick="history.back()">← Back</button>
-         <a role="button" class="share-button" href="#" data-tooltip="Share this idea" onclick="shareIdea('{{ url_for('idea_detail', unique_hash=idea.unique_hash, _external=True) }}', '{{ idea.title }}'); return false;">
-          <i class="fa-solid fa-share"></i>
-        </a>
-      </footer>
+        <header class="idea-header">
+            <h1>{{ idea.title }}</h1>
+            <p class="idea-meta">
+                Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                (<em>{{ idea.unique_hash }}</em>)
+            </p>
+        </header>
+        <section>
+            <h2>Description</h2>
+            <p>{{ idea.description }}</p>
+        </section>
+        <section>
+            <h2>Impact</h2>
+            <p>{{ idea.impact }}</p>
+        </section>
+        <section>
+            <h2>Attribution</h2>
+            <p>{{ idea.attribution }}</p>
+        </section>
+        {% if idea.up_votes is not none and idea.down_votes is not none %}
+        <footer class="idea-votes">
+            <a data-tooltip="{{ idea.up_votes }} votes" href="#"
+               onclick="voteIdea({{ idea.id }}, 'up', this); return false;">
+                <i class="fas fa-thumbs-up fa-2x"></i>
+                <span class="upvotes">{{ idea.up_votes }}</span>
+            </a>
+            <a data-tooltip="{{ idea.down_votes }} votes" href="#"
+               onclick="voteIdea({{ idea.id }}, 'down', this); return false;">
+                <i class="fas fa-thumbs-down fa-2x"></i>
+                <span class="downvotes">{{ idea.down_votes }}</span>
+            </a>
+        </footer>
+        {% endif %}
+        <footer class="back-button">
+            <button class="contrast" onclick="history.back()">← Back</button>
+            <a class="share-button" data-tooltip="Share this idea" href="#" onclick="shareIdea('{{ url_for('idea_detail', unique_hash=idea.unique_hash, _external=True) }}', '{{ idea.title }}'); return false;"
+               role="button">
+                <i class="fa-solid fa-share"></i>
+            </a>
+        </footer>
     </article>
-  </main>
+</main>
 
-  <script>
+<script>
     function voteIdea(ideaId, voteType, element) {
       // Build the vote URL with query parameters
       const url = `/vote?idea_id=${ideaId}&vote=${voteType}`;
@@ -122,6 +125,6 @@
         prompt("Copy this link to share:", url);
       }
     }
-  </script>
+</script>
 </body>
 </html>
