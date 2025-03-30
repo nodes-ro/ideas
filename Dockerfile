@@ -9,6 +9,7 @@ COPY static static
 COPY templates templates
 COPY app.py app.py
 COPY model.py model.py
+COPY init_db.py init_db.py
 COPY requirements.txt requirements.txt
 
 
