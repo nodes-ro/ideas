@@ -98,6 +98,32 @@ ul.flashes li.flash-warning {
   color: #856404;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-wrapper {
+  width: 128px;         /* same as your image width */
+  height: 128px;        /* same as your image height */
+  overflow: hidden;     /* hide anything outside the circle */
+  border-radius: 50%;   /* make it a circle */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circle-wrapper:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.circle-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures the image covers the circle without distortion */
+}
+
+
     </style>
 </head>
 <body>
@@ -119,15 +145,23 @@ ul.flashes li.flash-warning {
 {% endwith %}
 
 
-<h1 style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-    <img alt="Brain Logo" height="128" src="{{ url_for('static', filename='logo_brain.png') }}" width="128">
+<h1 class="logo-container">
+  <span class="circle-wrapper">
+    <img
+            alt="Brain Logo"
+            height="128"
+            src="{{ url_for('static', filename='logo_brain.png') }}"
+            width="128"
+    >
+  </span>
 </h1>
+
 
 <p>Share your idea. Vote on others. Let creativity flow.</p>
 
 <form action="/search" class="search-form" method="get" role="search">
     <fieldset role="group">
-        <input aria-label="Search" name="q" placeholder="Search for an idea..."  type="search">
+        <input aria-label="Search" name="q" placeholder="Search for an idea..." type="search">
         <input type="submit" value="Search"/>
     </fieldset>
 </form>
