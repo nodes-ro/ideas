@@ -74,15 +74,48 @@
                 <span class="downvotes">{{ idea.down_votes }}</span>
             </a>
         </footer>
+
         {% endif %}
-        <footer class="back-button">
-            <button class="contrast" onclick="history.back()">← Back</button>
-            <a class="share-button" data-tooltip="Share this idea" href="#" onclick="shareIdea('{{ url_for('idea_detail', unique_hash=idea.unique_hash, _external=True) }}', '{{ idea.title }}'); return false;"
-               role="button">
-                <i class="fa-solid fa-share"></i>
-            </a>
-        </footer>
+
     </article>
+
+
+<article>
+  <details class="dropdown">
+    <summary>How would you categorize this idea?</summary>
+    <ul>
+      <li data-tooltip="This idea really stands out—it's a must-have for you!">
+        <label>
+          <input name="featureTag" type="radio" value="I Need This"
+          I Need This
+        </label>
+      </li>
+      <li data-tooltip="This idea doesn't grab your attention.">
+        <label>
+          <input name="featureTag" type="radio" value="Not Worth It"
+          Not Worth It
+        </label>
+      </li>
+      <li data-tooltip="You're neutral about this idea—it doesn't really matter to you.">
+        <label>
+          <input name="featureTag" type="radio" value="I Don't Care Either Way"
+          I Don't Care Either Way
+        </label>
+      </li>
+    </ul>
+  </details>
+</article>
+
+
+
+    <footer class="back-button">
+        <button class="contrast" onclick="history.back()">← Back</button>
+        <a class="share-button" data-tooltip="Share this idea" href="#"
+           onclick="shareIdea('{{ url_for('idea_detail', unique_hash=idea.unique_hash, _external=True) }}', '{{ idea.title }}'); return false;"
+           role="button">
+            <i class="fa-solid fa-share"></i>
+        </a>
+    </footer>
 </main>
 
 <script>
@@ -130,18 +163,18 @@
 <script>
 
 
-     function shareIdea(url, title) {
-      if (navigator.share) {
-        navigator.share({
-          title: title,
-          text: 'Check out this idea!',
-          url: url
-        }).catch(error => console.error('Error sharing:', error));
-      } else {
-        // Fallback: show a prompt with the URL to copy.
-        prompt("Copy this link to share:", url);
-      }
-    }
+    function shareIdea(url, title) {
+     if (navigator.share) {
+       navigator.share({
+         title: title,
+         text: 'Check out this idea!',
+         url: url
+       }).catch(error => console.error('Error sharing:', error));
+     } else {
+       // Fallback: show a prompt with the URL to copy.
+       prompt("Copy this link to share:", url);
+     }
+   }
 </script>
 </body>
 </html>
