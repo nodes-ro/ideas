@@ -1,19 +1,20 @@
 import json
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash
 from sqlalchemy import or_
 from model import db, Idea
 import openai
 from flask_wtf.csrf import CSRFProtect
-
+from flask import session, jsonify, request
+from sqlalchemy import func
 
 app = Flask(__name__)
 client = openai.AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ideas.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'your_secret_key'  # Needed for flash messages
+app.secret_key = 'your_secret_key2'  # Needed for flash messages
 
 # Initialize the SQLAlchemy instance with the app
 db.init_app(app)
@@ -63,8 +64,7 @@ def idea_detail(unique_hash):
         return render_template('404_custom.html'), 404
     return render_template('idea_detail.html', idea=idea)
 
-from flask import session, jsonify, request
-from sqlalchemy import func
+
 
 @app.route('/vote')
 def vote():

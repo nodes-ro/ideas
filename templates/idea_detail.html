@@ -86,32 +86,49 @@
 </main>
 
 <script>
-    function voteIdea(ideaId, voteType, element) {
-      // Build the vote URL with query parameters
-      const url = `/vote?idea_id=${ideaId}&vote=${voteType}`;
+    async function voteIdea(ideaId, voteType, element) {
+  const url = `/vote?idea_id=${ideaId}&vote=${voteType}`;
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === "success") {
-            // Update the vote count in the DOM
-            // Assuming the structure: <a><i></i><span class="upvotes/downvotes">...</span></a>
-            if (voteType === 'up') {
-              element.querySelector('.upvotes').textContent = data.up_votes;
-              element.setAttribute('data-tooltip', data.up_votes + ' votes');
-            } else if (voteType === 'down') {
-              element.querySelector('.downvotes').textContent = data.down_votes;
-              element.setAttribute('data-tooltip', data.down_votes + ' votes');
-            }
-          } else {
-            alert(data.message);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('An error occurred while processing your vote.');
-        });
+  // Optionally disable the button during the request
+  element.classList.add('loading');
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Network response was not ok (status: ${response.status})`);
     }
+    const data = await response.json();
+
+    if (data.status === "success") {
+      // Update the vote count based on the vote type
+      if (voteType === 'up') {
+        const upVotesElem = element.querySelector('.upvotes');
+        if (upVotesElem) {
+          upVotesElem.textContent = data.up_votes;
+          element.setAttribute('data-tooltip', `${data.up_votes} votes`);
+        }
+      } else if (voteType === 'down') {
+        const downVotesElem = element.querySelector('.downvotes');
+        if (downVotesElem) {
+          downVotesElem.textContent = data.down_votes;
+          element.setAttribute('data-tooltip', `${data.down_votes} votes`);
+        }
+      }
+    } else {
+      alert(data.message || 'Your vote could not be processed.');
+    }
+  } catch (error) {
+    console.error('Error processing vote:', error);
+    alert('An error occurred while processing your vote.');
+  } finally {
+    // Re-enable the element after processing is complete
+    element.classList.remove('loading');
+  }
+}
+
+</script>
+<script>
+
 
      function shareIdea(url, title) {
       if (navigator.share) {
