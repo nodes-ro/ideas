@@ -137,19 +137,16 @@
           <details class="card">
             <summary>
                 <h5>
-              <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" style="text-decoration: none; ">
+              <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" >
                 {{ idea.title }}
               </a>
                     </h5>
             </summary>
             <section>
-              <p><i class="fas fa-note-sticky" title="Description"></i> {{ idea.description }}</p>
-              <p><i class="fas fa-bolt" title="Impact"></i> {{ idea.impact }}</p>
-              <p><i class="fas fa-user" title="Attribution"></i> {{ idea.attribution }}</p>
-              <p style="color:#777;">
+              <p><i class="fas fa-note-sticky" title="Description"></i>  {{ idea.description | truncate(120) }} <a href="{{ url_for('idea_detail', unique_hash=idea.unique_hash) }}" >Read more</a></p>
+                <p style="color:#777;">
                 <small>
                   Submitted on {{ idea.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
-                  (<em>{{ idea.unique_hash }}</em>)
                 </small>
               </p>
             </section>
