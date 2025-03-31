@@ -166,7 +166,14 @@ ul.flashes li.flash-warning {
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <fieldset role="group">
 
-        <input aria-label="Search" name="q" placeholder="Search for an idea..." type="search">
+    <input
+        id="idea-search"
+        name="q"
+        type="search"
+        placeholder="Search for ideas..."
+        aria-label="Search for ideas"
+        autocomplete="off"
+      >
         <input type="submit" value="Search"/>
     </fieldset>
 </form>
