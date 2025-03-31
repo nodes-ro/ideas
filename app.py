@@ -19,6 +19,10 @@ app.secret_key = 'your_secret_key'  # Needed for flash messages
 db.init_app(app)
 csrf = CSRFProtect(app)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/support')
 def support():
     return render_template('support.html')

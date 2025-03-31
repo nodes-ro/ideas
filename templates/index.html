@@ -149,31 +149,32 @@ ul.flashes li.flash-warning {
 
 
 <h1 class="logo-container">
-  <span class="circle-wrapper">
+  <a href="{{ url_for('about') }}" class="circle-wrapper">
+
     <img
             alt="Brain Logo"
             height="128"
             src="{{ url_for('static', filename='logo_brain.png') }}"
             width="128"
     >
-  </span>
+  </a>
 </h1>
 
 
 <p>Share your idea. Upvote the ideas that you like. Spark creativity.</p>
 
 <form action="/search" class="search-form" method="get" role="search">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
     <fieldset role="group">
 
-    <input
-        id="idea-search"
-        name="q"
-        type="search"
-        placeholder="Search for ideas..."
-        aria-label="Search for ideas"
-        autocomplete="off"
-      >
+        <input
+                aria-label="Search for ideas"
+                autocomplete="off"
+                id="idea-search"
+                name="q"
+                placeholder="Search for ideas..."
+                type="search"
+        >
         <input type="submit" value="Search"/>
     </fieldset>
 </form>
@@ -199,7 +200,7 @@ ul.flashes li.flash-warning {
         <section>
             <!-- Use a proper form submission method and action -->
             <form action="{{ url_for('submit_idea') }}" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
                 <div data-tooltip="E.g., 'Collaborative AI Meeting Assistant'">
                     <input id="idea-title" name="title" placeholder="Enter your idea title" required type="text">
                 </div>
