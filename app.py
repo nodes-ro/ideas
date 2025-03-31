@@ -1,4 +1,5 @@
 import json
+import math
 import os
 
 from flask import Flask, render_template, redirect, url_for, flash
@@ -19,6 +20,21 @@ app.secret_key = 'your_secret_key2'  # Needed for flash messages
 # Initialize the SQLAlchemy instance with the app
 db.init_app(app)
 csrf = CSRFProtect(app)
+
+def calculate_progress(up_votes, down_votes):
+    n = up_votes + down_votes
+    if n == 0:
+        return 50  # Neutral score if no votes
+    p = up_votes / n
+    z = 1.96  # 95% confidence
+    numerator = p + (z * z) / (2 * n) - z * math.sqrt((p * (1 - p)) / n + (z * z) / (4 * n * n))
+    denominator = 1 + (z * z) / n
+    score = numerator / denominator
+    return score * 100  # Return as a percentage
+
+# Add the function to Jinja2 globals
+app.jinja_env.globals['calculate_progress'] = calculate_progress
+
 
 @app.route('/about')
 def about():
