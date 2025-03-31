@@ -81,32 +81,6 @@
 
 
     <article>
-        <details class="dropdown">
-            <summary>Likelihood You Would Adopt This Idea ?</summary>
-            <ul>
-                <li data-tooltip="This idea really stands out—it's a must-have for you!">
-                    <label>
-                        <input name="featureTag" type="radio" value="I Want to Support This Idea">
-                        I Want to Support This Idea
-                    </label>
-                </li>
-                <li data-tooltip="This idea doesn't grab your attention.">
-                    <label>
-                        <input name="featureTag" type="radio" value="Not Worth It">
-                        Not Worth It
-                    </label>
-                </li>
-                <li data-tooltip="You're neutral about this idea—it doesn't really matter to you.">
-                    <label>
-                        <input name="featureTag" type="radio" value="I Don't Care Either Way">
-                        I Don't Care Either Way <i class="fas fa-meh" style="margin-right: 0.5rem;"></i>
-                    </label>
-                </li>
-            </ul>
-        </details>
-    </article>
-
-    <article>
         <p data-tooltip="Based on user feedback and Wilson Score Lower Bound">Does this idea have the potential to
             become profitable ?</p>
         <progress max="100" value="{{ calculate_progress(idea.up_votes, idea.down_votes) }}"></progress>
