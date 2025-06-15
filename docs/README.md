@@ -23,6 +23,8 @@
 
 ## Key Features
 
+Whether you're searching for your next big idea or eager to share your creativity with others, this platform empowers you to do just that. It's a dynamic hub where innovative minds converge to spark breakthrough concepts and foster collaborative growth.
+
 - **Submit Ideas:** Quickly add a title and description for each idea.  
 - **Upvote System:** Vote on ideas you like to help surface popular suggestions.  
 - **Browse & Filter:** View all ideas and sort by newest or most upvoted.  
@@ -35,7 +37,7 @@
 
 Your support keeps the platform running and evolving:
 
-- **Donate:** 
+- **Donate** 
 - **Spread the Word:** Share with friends, teams, or communities.  
 - **Provide Feedback:** Let us know your suggestions or report issues.  
 
@@ -46,9 +48,3 @@ Your support keeps the platform running and evolving:
 - **Live Site:** https://ideas.nodes.ro  
 
 ---
-
-## Local Preview
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/nodes-ro/ideas.git
