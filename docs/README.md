@@ -1,4 +1,4 @@
-# ideas.nodes.ro
+# https://ideas.nodes.ro
 
 > Share your idea. Upvote the ideas that you like. Spark creativity.
 
