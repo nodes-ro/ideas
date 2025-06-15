@@ -1,0 +1,11 @@
+# _config.yml
+title: ideas.nodes.ro
+description: "A simple landing page showcasing ideas and projects."
+url: "https://ideas.nodes.ro"
+baseurl: ""            # user-page → keep empty
+theme: minima          # GitHub Pages default theme; swap if you like
+plugins:
+  - jekyll-seo-tag     # optional but good for meta tags
+exclude:
+  - README.md
+  - LICENSE
