@@ -44,7 +44,6 @@ Your support keeps the platform running and evolving:
 ## Demo
 
 - **Live Site:** https://ideas.nodes.ro  
-- **Support Page:** https://ideas.nodes.ro/support
 
 ---
 
