@@ -8,7 +8,7 @@
 
 [![GitHub][fi=github]][source]
 
-[source]: https://github.com/nodes-ro/nodes.ro  
+[source]: https://github.com/nodes-ro/ideas.git
 [fi=github]: https://img.shields.io/badge/GitHub-Source%20Code-blue?logo=github
 
 ---
@@ -35,7 +35,7 @@
 
 Your support keeps the platform running and evolving:
 
-- **Donate:** Help fund hosting and development—see [Support Our Mission](https://ideas.nodes.ro/support).  
+- **Donate:** 
 - **Spread the Word:** Share with friends, teams, or communities.  
 - **Provide Feedback:** Let us know your suggestions or report issues.  
 
@@ -51,5 +51,4 @@ Your support keeps the platform running and evolving:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/nodes-ro/nodes.ro.git
-   cd nodes.ro
+   git clone https://github.com/nodes-ro/ideas.git
