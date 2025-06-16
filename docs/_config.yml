@@ -1,5 +1,5 @@
 # _config.yml
-title: ideas.nodes.ro
+title: Ideas Catalog
 description: "A simple landing page showcasing ideas and projects."
 url: "https://ideas.nodes.ro"
 theme: jekyll-theme-minimal
