@@ -17,7 +17,7 @@
 
 **Problem:** Gathering and prioritizing community ideas can be scattered, making it hard to find and develop the best suggestions.
 
-**Solution:** A lightweight platform to submit new ideas, browse existing ones, and upvote favorites—surface the top concepts and foster collaborative creativity.
+**Solution:** A lightweight, Docker-deployable idea management platform that lets users submit proposals, explore and filter existing suggestions, and upvote their favorites—surfacing the most popular concepts to inspire collaborative innovation. Packaged as a single Docker container, it can be deployed in minutes within your organization to collect and prioritize employee insights.
 
 ---
 
@@ -25,15 +25,14 @@
 
 Whether you're searching for your next big idea or eager to share your creativity with others, this platform empowers you to do just that. It's a dynamic hub where innovative minds converge to spark breakthrough concepts and foster collaborative growth.
 
-- **Submit Ideas:** Quickly add a title and description for each idea.  
+- **Submit Ideas:** Quickly add a title and description for each idea or use AI if you need suggestions.  
 - **Upvote System:** Vote on ideas you like to help surface popular suggestions.  
-- **Browse & Filter:** View all ideas and sort by newest or most upvoted.  
+- **Browse & Filter:** View all ideas and sort by newest or most up-voted.  
 - **Responsive Design:** Accessible on desktop and mobile devices.  
-- **Support Page:** Learn how to contribute, donate, or provide feedback.  
 
 ---
 
-## Support
+## Support us
 
 Your support keeps the platform running and evolving:
 
