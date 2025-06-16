@@ -2,5 +2,4 @@
 title: Ideas Catalog
 description: "A simple landing page showcasing ideas and projects."
 url: "https://ideas.nodes.ro"
-baseurl: ""                           # MUST be empty to avoid /ideas/ subpath
 theme: jekyll-theme-minimal

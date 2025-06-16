@@ -1,0 +1,13 @@
+<header class="site-header" role="banner">
+  <div class="wrapper">
+    <h1 class="site-title">
+      <!-- use `relative_url` so your theme’s assets & links still work -->
+      <a class="site-link" href="{{ '/' | relative_url }}">
+        {{ site.title }}
+      </a>
+    </h1>
+    {% if site.description %}
+      <p class="site-description">{{ site.description }}</p>
+    {% endif %}
+  </div>
+</header>
