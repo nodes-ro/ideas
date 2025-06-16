@@ -17,7 +17,7 @@
 
 **Problem:** Gathering and prioritizing community ideas can be scattered, making it hard to find and develop the best suggestions.
 
-**Solution:** A lightweight, Docker-deployable idea management platform that lets users submit proposals, explore and filter existing suggestions, and upvote their favorites—surfacing the most popular concepts to inspire collaborative innovation. Packaged as a single Docker container, it can be deployed in minutes within your organization to collect and prioritize employee insights.
+**Solution:** Free and lightweight, Docker-deployable idea management platform that lets users submit proposals, explore and filter existing suggestions, and upvote their favorites—surfacing the most popular concepts to inspire collaborative innovation. Packaged as a single Docker container, it can be deployed in minutes within your organization to collect and prioritize employee insights.
 
 ---
 
