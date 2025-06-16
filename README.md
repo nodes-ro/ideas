@@ -48,3 +48,20 @@ Your support keeps the platform running and evolving:
 - **Live Site:** https://ideas.nodes.ro  
 
 ---
+
+## Build & Run Docker Image
+
+### 1. Remove any existing image
+> docker rmi -f ideas:0.0.1
+
+### 2. Build the new image (must be run from the directory containing your Dockerfile)
+> docker build -t ideas:0.0.1 .
+
+### 3. Run the container
+-e OPENAI_API_KEY="sk-proj-..." => Sets an environment variable inside the container.
+-p 8005:8005 => Publishes (maps) port 8005 on the host machine to port 8005 in the container.
+-v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db => Mounts a file (or directory) from the host into the container.
+-d => Runs the container in detached mode (in the background).
+ideas:0.0.1 => The name and tag of the Docker image to run.
+
+> docker run -e OPENAI_API_KEY="sk-proj-..." -p 8005:8005 -v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db  -d ideas:0.0.1 
