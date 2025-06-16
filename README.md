@@ -57,10 +57,12 @@ Join us on our journey:
 > docker build -t ideas:0.0.1 .
 
 ### 3. Run the container
+
+> docker run -e OPENAI_API_KEY="sk-proj-..." -p 8005:8005 -v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db  -d ideas:0.0.1 
+
 -e OPENAI_API_KEY="sk-proj-..." => Sets an environment variable inside the container.
 -p 8005:8005 => Publishes (maps) port 8005 on the host machine to port 8005 in the container.
 -v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db => Mounts a file (or directory) from the host into the container.
 -d => Runs the container in detached mode (in the background).
 ideas:0.0.1 => The name and tag of the Docker image to run.
 
-> docker run -e OPENAI_API_KEY="sk-proj-..." -p 8005:8005 -v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db  -d ideas:0.0.1 
