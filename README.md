@@ -57,7 +57,6 @@ Join us on our journey:
 > docker build -t ideas:0.0.1 .
 
 ### 3. Run the container
-
 > docker run -e OPENAI_API_KEY="sk-proj-..." -p 8005:8005 -v /home/user/ideas.nodes.ro/data/ideas.db:/app/instance/ideas.db  -d ideas:0.0.1 
 
 -e OPENAI_API_KEY="sk-proj-..." => Sets an environment variable inside the container.
