@@ -34,7 +34,7 @@ Whether you're searching for your next big idea or eager to share your creativit
 
 ## Support us
 
-Your support keeps the platform running and evolving:
+Join us on our journey:
 
 - **Donate** 
 - **Spread the Word:** Share with friends, teams, or communities.  
